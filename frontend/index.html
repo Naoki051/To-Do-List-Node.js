@@ -13,6 +13,8 @@
     <!-- Cabeçalho da página -->
     <header>
         <h1>To Do List</h1>
+        <!-- Novo botão para autenticação -->
+        <button id="botaoAutenticacao">Login</button>
     </header>
 
     <!-- Seção principal com entrada de tarefas e lista -->
@@ -51,6 +53,17 @@
             <p>Tem certeza que deseja apagar esta tarefa?</p>
             <button id="confirmarExclusao">Sim</button>
             <button id="cancelarExclusao">Não</button>
+        </div>
+    </div>
+
+    <!-- Modal para autenticação de usuário -->
+    <div id="modalAutenticacao" class="modal" style="display: block;"> <!-- Adicionando display block para exibir o modal -->
+        <div class="modal-conteudo">
+            <h2>Autenticação de Usuário</h2>
+            <input type="text" id="loginUsuario" placeholder="Nome de usuário">
+            <input type="password" id="senhaUsuario" placeholder="Senha">
+            <div class="botao-entrar"><button id="entrarUsuario" >Entrar</button></div>
+            
         </div>
     </div>
 

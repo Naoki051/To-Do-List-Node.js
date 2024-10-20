@@ -143,7 +143,7 @@ section {
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
-    max-width: 500px;
+    max-width: 400px; /* Reduzindo a largura máxima do modal */
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
@@ -153,12 +153,14 @@ section {
     color: #2c3e50;
 }
 
-.modal-conteudo input[type="text"] {
-    width: 100%;
+.modal-conteudo input[type="text"],
+.modal-conteudo input[type="password"] { /* Adicionando estilo para input de senha */
+    width: calc(100% - 20px); /* Subtraindo o padding total */
     padding: 10px;
     margin-bottom: 20px;
     border: 1px solid #ddd;
     border-radius: 4px;
+    box-sizing: border-box; /* Garante que o padding não aumente a largura total */
 }
 
 .modal-conteudo button {
@@ -169,6 +171,14 @@ section {
     cursor: pointer;
     transition: background-color 0.3s;
 }
+
+.botao-entrar {
+    display: block;
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
 
 #salvarEdicao, #confirmarExclusao {
     background-color: #2ecc71;

@@ -225,6 +225,33 @@ document.addEventListener('DOMContentLoaded', () => {
         elementos.modalConfirmar.style.display = 'none';
     });
 
+    // Função para exibir o modal de autenticação
+    function exibirModalAutenticacao() {
+        const modal = document.getElementById('modalAutenticacao');
+        modal.style.display = 'block';
+    }
+
+    // Função para fechar o modal de autenticação
+    function fecharModalAutenticacao() {
+        const modal = document.getElementById('modalAutenticacao');
+        modal.style.display = 'none';
+    }
+
+    // Adicionar evento de clique ao botão de autenticação
+    document.getElementById('botaoAutenticacao').addEventListener('click', exibirModalAutenticacao);
+
+    // Adicionar evento de clique ao botão de entrar no modal
+    document.getElementById('entrarUsuario').addEventListener('click', function() {
+        const usuario = document.getElementById('loginUsuario').value;
+        const senha = document.getElementById('senhaUsuario').value;
+        // Aqui você implementaria a lógica de autenticação
+        console.log('Tentativa de login:', usuario, senha);
+        // Após a autenticação bem-sucedida, você fecharia o modal
+        fecharModalAutenticacao();
+    });
+
+    // Resto do seu código JavaScript existente...
+
     // Carrega as tarefas iniciais
     carregarTarefas();
 });

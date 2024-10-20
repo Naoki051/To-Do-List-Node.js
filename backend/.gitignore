@@ -1,0 +1,8 @@
+# Arquivo de variáveis de ambiente
+.env
+
+# Diretório de dependências
+node_modules
+
+# Credenciais do Google (não devem ser versionadas)
+google-credentials.json

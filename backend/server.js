@@ -1,3 +1,4 @@
+// Importações necessárias
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
@@ -6,12 +7,15 @@ const redis = require('./services/redis');
 const { Storage } = require('@google-cloud/storage');
 const { initializeGoogleCloudStorage } = require('./services/googleCloudService');
 
+// Inicialização do aplicativo Express
 const app = express();
 const port = process.env.PORT || 3000;
 
+// Middlewares
 app.use(cors());
 app.use(express.json());
 
+// Rotas
 app.use('/api/tasks', taskRoutes);
 
 // Configuração do Google Cloud Storage
@@ -20,14 +24,17 @@ const storage = new Storage({
   projectId: process.env.GOOGLE_CLOUD_PROJECT_ID,
 });
 
-// Inicialização do servidor
+// Função de inicialização do servidor
 async function startServer() {
   try {
+    // Conexão com Redis
     await redis.connect();
     console.log('Conexão com Redis realizada com sucesso');
     
+    // Inicialização do Google Cloud Storage
     await initializeGoogleCloudStorage();
     
+    // Iniciar o servidor
     app.listen(port, () => {
       console.log(`Servidor rodando na porta ${port}`);
     });
@@ -37,4 +44,5 @@ async function startServer() {
   }
 }
 
+// Iniciar o servidor
 startServer();

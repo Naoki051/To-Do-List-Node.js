@@ -1,23 +1,27 @@
+// Importa os módulos necessários
 const express = require('express');
 const router = express.Router();
 const taskController = require('../controllers/taskController');
 
-// Adicionar uma nova tarefa (POST)
+// Define as rotas para as operações CRUD de tarefas
+
+// Cria uma nova tarefa
 router.post('/tasks', taskController.createTask);
 
-// Consultar todas as tarefas (GET)
+// Obtém todas as tarefas
 router.get('/tasks', taskController.getAllTasks);
 
-// Consultar uma tarefa específica (GET)
+// Obtém uma tarefa específica pelo ID
 router.get('/tasks/:id', taskController.getTaskById);
 
-// Atualizar uma tarefa (PUT)
+// Atualiza uma tarefa existente
 router.put('/tasks/:id', taskController.updateTask);
 
-// Apagar uma tarefa (DELETE)
+// Remove uma tarefa
 router.delete('/tasks/:id', taskController.deleteTask);
 
-// Toggle status de uma tarefa (PATCH)
+// Alterna o status de conclusão de uma tarefa
 router.patch('/tasks/:id/toggle', taskController.toggleTaskStatus);
 
+// Exporta o router para uso em outros módulos
 module.exports = router;

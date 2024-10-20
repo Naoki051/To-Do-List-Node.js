@@ -1,5 +1,7 @@
+// Importa o módulo Redis
 const { createClient } = require('redis');
 
+// Cria um cliente Redis com as configurações do ambiente
 const client = createClient({
     password: process.env.REDIS_PASSWORD,
     socket: {
@@ -8,8 +10,10 @@ const client = createClient({
     }
 });
 
+// Trata erros do cliente Redis
 client.on('error', (err) => console.log('Erro no Redis Client', err));
 
+// Função para conectar ao Redis
 async function connect() {
     try {
         await client.connect();
@@ -20,8 +24,10 @@ async function connect() {
     }
 }
 
+// Exporta as funções do módulo
 module.exports = {
     connect,
+    // Obtém todas as chaves com um prefixo específico
     getAll: async (prefix) => {
         try {
             const keys = await client.keys(`${prefix}:*`);
@@ -35,6 +41,7 @@ module.exports = {
             return [];
         }
     },
+    // Obtém um item específico
     get: async (key) => {
         try {
             const value = await client.get(key);
@@ -44,6 +51,7 @@ module.exports = {
             return null;
         }
     },
+    // Define um item no Redis
     set: async (key, data) => {
         try {
             await client.set(key, JSON.stringify(data));
@@ -52,6 +60,7 @@ module.exports = {
             console.error('Erro ao definir item:', error);
         }
     },
+    // Remove um item do Redis
     del: async (key) => {
         try {
             await client.del(key);

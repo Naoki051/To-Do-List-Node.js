@@ -4,13 +4,13 @@ const { uploadToGoogleCloud } = require('../services/googleCloudService');
 const { validationResult } = require('express-validator');
 
 const taskController = {
-  // Função auxiliar para padronizar mensagens de erro
+  // Trata erros de forma padronizada
   handleError: (res, status, action, error) => {
     console.error(`Erro em ${action}:`, error);
     res.status(status).json({ message: { action, error: error.message } });
   },
 
-  // Obter todas as tarefas
+  // Lista todas as tarefas do Redis
   getAllTasks: async (req, res) => {
     try {
       const tasks = await redis.getAll('task');
@@ -20,7 +20,7 @@ const taskController = {
     }
   },
 
-  // Criar uma nova tarefa
+  // Cria uma nova tarefa e sincroniza com Google Cloud
   createTask: async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -48,7 +48,7 @@ const taskController = {
     }
   },
 
-  // Atualizar uma tarefa existente
+  // Atualiza uma tarefa existente e sincroniza com Google Cloud
   updateTask: async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -81,7 +81,7 @@ const taskController = {
     }
   },
 
-  // Excluir uma tarefa
+  // Remove uma tarefa e registra a exclusão no Google Cloud
   deleteTask: async (req, res) => {
     try {
       const { id } = req.params;
@@ -114,7 +114,7 @@ const taskController = {
     }
   },
 
-  // Sincronizar com o Google Cloud
+  // Realiza backup completo das tarefas no Google Cloud
   syncToGoogleCloud: async (req, res) => {
     try {
       const tasks = await redis.getAll('task');

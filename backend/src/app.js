@@ -1,3 +1,4 @@
+// Importações necessárias
 const express = require('express');
 const redisClient = require('./config/redis');
 const dbPool = require('./config/database');
@@ -5,8 +6,10 @@ const taskRoutes = require('./routes/taskRoutes');
 require('dotenv').config();
 const cors = require('cors');
 
+// Inicializa o aplicativo Express
 const app = express();
 
+// Middlewares globais
 app.use(express.json());
 app.use(cors());
 
@@ -30,13 +33,14 @@ app.use(async (req, res, next) => {
   }
 });
 
-// Suas rotas e outros middlewares aqui
-
+// Rotas da API
 app.use('/api', taskRoutes);
 
+// Configuração e inicialização do servidor
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
 });
 
+// Exporta o app para testes ou uso em outros módulos
 module.exports = app;

@@ -1,6 +1,8 @@
+// Importações necessárias
 const dbPool = require('../config/database');
 const { formatarData } = require('../utils/dateFormatter');
 
+// Classe que representa uma tarefa
 class Task {
   constructor(id, title, completed, createdAt) {
     this.id = id;
@@ -9,6 +11,7 @@ class Task {
     this.createdAt = createdAt ? formatarData(createdAt) : 'Data não disponível';
   }
 
+  // Cria uma nova tarefa
   static async create(title) {
     const now = new Date().toISOString().slice(0, 19).replace('T', ' ');
     const [result] = await dbPool.execute(
@@ -18,6 +21,7 @@ class Task {
     return new Task(result.insertId, title, false, now);
   }
 
+  // Busca todas as tarefas
   static async findAll() {
     const [rows] = await dbPool.query('SELECT * FROM new_table');
     return rows.map(row => new Task(
@@ -28,6 +32,7 @@ class Task {
     ));
   }
 
+  // Busca uma tarefa pelo ID
   static async findById(id) {
     const [rows] = await dbPool.query('SELECT * FROM new_table WHERE id = ?', [id]);
     if (rows.length === 0) return null;
@@ -40,6 +45,7 @@ class Task {
     );
   }
 
+  // Atualiza o título de uma tarefa
   async update(title) {
     await dbPool.execute(
       'UPDATE new_table SET title = ? WHERE id = ?',
@@ -49,10 +55,12 @@ class Task {
     return this;
   }
 
+  // Exclui uma tarefa
   async delete() {
     await dbPool.execute('DELETE FROM new_table WHERE id = ?', [this.id]);
   }
 
+  // Alterna o status de conclusão da tarefa
   async toggleCompleted() {
     this.completed = !this.completed;
     await dbPool.execute(
@@ -63,4 +71,5 @@ class Task {
   }
 }
 
+// Exporta a classe Task
 module.exports = Task;

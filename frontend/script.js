@@ -1,5 +1,9 @@
+// Aguarda o carregamento do DOM
 document.addEventListener('DOMContentLoaded', () => {
+    // URL base da API
     const API_URL = 'http://localhost:3000/api';
+    
+    // Elementos do DOM
     const elementos = {
         novaTarefa: document.getElementById('novaTarefa'),
         adicionarTarefa: document.getElementById('adicionarTarefa'),
@@ -14,15 +18,19 @@ document.addEventListener('DOMContentLoaded', () => {
         cancelarExclusao: document.getElementById('cancelarExclusao')
     };
 
+    // IDs das tarefas em edição ou exclusão
     let tarefaEditandoId = null;
     let tarefaExcluindoId = null;
 
+    // Objeto com métodos para chamadas à API
     const api = {
+        // Método GET
         async get(endpoint) {
             const response = await fetch(`${API_URL}${endpoint}`);
             if (!response.ok) throw new Error('Falha na requisição');
             return response.json();
         },
+        // Método POST
         async post(endpoint, data) {
             const response = await fetch(`${API_URL}${endpoint}`, {
                 method: 'POST',
@@ -32,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!response.ok) throw new Error('Falha na requisição');
             return response.json();
         },
+        // Método PUT
         async put(endpoint, data) {
             const response = await fetch(`${API_URL}${endpoint}`, {
                 method: 'PUT',
@@ -41,10 +50,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!response.ok) throw new Error('Falha na requisição');
             return response.json();
         },
+        // Método DELETE
         async delete(endpoint) {
             const response = await fetch(`${API_URL}${endpoint}`, { method: 'DELETE' });
             if (!response.ok) throw new Error('Falha na requisição');
         },
+        // Método PATCH
         async patch(endpoint) {
             const response = await fetch(`${API_URL}${endpoint}`, { method: 'PATCH' });
             if (!response.ok) throw new Error('Falha na requisição');
@@ -52,6 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    // Carrega as tarefas do servidor
     async function carregarTarefas() {
         try {
             const tarefas = await api.get('/tasks');
@@ -61,6 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Adiciona uma nova tarefa
     async function adicionarNovaTarefa(titulo) {
         try {
             await api.post('/tasks', { title: titulo, createdAt: new Date().toISOString() });
@@ -70,6 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Atualiza uma tarefa existente
     async function atualizarTarefa(id, titulo) {
         try {
             await api.put(`/tasks/${id}`, { title: titulo });
@@ -79,6 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Exclui uma tarefa
     async function excluirTarefa(id) {
         try {
             await api.delete(`/tasks/${id}`);
@@ -88,6 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Alterna o status de conclusão de uma tarefa
     async function alternarStatusTarefa(id) {
         try {
             await api.patch(`/tasks/${id}/toggle`);
@@ -97,7 +113,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Atualiza a lista de tarefas na interface
     function atualizarLista(tarefas) {
+        // Filtra as tarefas conforme seleção do usuário
         const filtro = elementos.filtroTarefas.value;
         const tarefasFiltradas = tarefas.filter(tarefa => 
             filtro === 'todas' || 
@@ -105,6 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
             (filtro === 'concluidas' && tarefa.completed)
         );
 
+        // Renderiza as tarefas filtradas
         elementos.listaTarefas.innerHTML = tarefasFiltradas.map(tarefa => `
             <li class="tarefa">
                 <input type="checkbox" class="concluir" ${tarefa.completed ? 'checked' : ''} data-id="${tarefa.id}">
@@ -119,10 +138,12 @@ document.addEventListener('DOMContentLoaded', () => {
             </li>
         `).join('');
 
+        // Adiciona event listeners para a lista
         elementos.listaTarefas.addEventListener('click', handleListClick);
         elementos.listaTarefas.addEventListener('change', handleListChange);
     }
 
+    // Lida com cliques na lista de tarefas
     function handleListClick(e) {
         const target = e.target.closest('button');
         if (!target) return;
@@ -135,6 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Lida com mudanças na lista de tarefas (checkbox)
     function handleListChange(e) {
         const target = e.target;
         if (target.classList.contains('concluir')) {
@@ -142,17 +164,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Abre o modal de edição
     function abrirModalEditar(id, titulo) {
         tarefaEditandoId = id;
         elementos.tarefaEditada.value = titulo;
         elementos.modalEditar.style.display = 'block';
     }
 
+    // Abre o modal de confirmação de exclusão
     function abrirModalConfirmar(id) {
         tarefaExcluindoId = id;
         elementos.modalConfirmar.style.display = 'block';
     }
 
+    // Event listener para adicionar nova tarefa
     elementos.adicionarTarefa.addEventListener('click', () => {
         const texto = elementos.novaTarefa.value.trim();
         if (texto) {
@@ -161,8 +186,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Event listener para filtrar tarefas
     elementos.filtroTarefas.addEventListener('change', carregarTarefas);
 
+    // Event listener para adicionar tarefa com Enter
     elementos.novaTarefa.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
             const texto = elementos.novaTarefa.value.trim();
@@ -173,6 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Event listener para salvar edição
     elementos.salvarEdicao.addEventListener('click', () => {
         const novoTitulo = elementos.tarefaEditada.value.trim();
         if (novoTitulo) {
@@ -181,18 +209,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Event listener para cancelar edição
     elementos.cancelarEdicao.addEventListener('click', () => {
         elementos.modalEditar.style.display = 'none';
     });
 
+    // Event listener para confirmar exclusão
     elementos.confirmarExclusao.addEventListener('click', () => {
         excluirTarefa(tarefaExcluindoId);
         elementos.modalConfirmar.style.display = 'none';
     });
 
+    // Event listener para cancelar exclusão
     elementos.cancelarExclusao.addEventListener('click', () => {
         elementos.modalConfirmar.style.display = 'none';
     });
 
+    // Carrega as tarefas iniciais
     carregarTarefas();
 });

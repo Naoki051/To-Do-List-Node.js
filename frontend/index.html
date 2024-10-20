@@ -4,29 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To-Do List</title>
+    <!-- Importação do Font Awesome para ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css"> </head>
+    <!-- Importação do arquivo de estilos CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
 <body>
+    <!-- Cabeçalho da página -->
     <header>
         <h1>To Do List</h1>
     </header>
 
+    <!-- Seção principal com entrada de tarefas e lista -->
     <section>
         <div class="input-container">
+            <!-- Campo para adicionar nova tarefa -->
             <input type="text" id="novaTarefa" placeholder="Digite sua tarefa">
             <button id="adicionarTarefa">Adicionar</button>
+            <!-- Seletor para filtrar tarefas -->
             <select id="filtroTarefas">
                 <option value="todas">Todas</option>
                 <option value="pendentes">Pendentes</option>
                 <option value="concluidas">Concluídas</option>
             </select>
         </div>
+        <!-- Lista de tarefas (preenchida dinamicamente) -->
         <ul id="listaTarefas">
             <!-- As tarefas serão adicionadas aqui dinamicamente -->
         </ul>
     </section>
 
-    <!-- Modal de Edição -->
+    <!-- Modal para edição de tarefas -->
     <div id="modalEditar" class="modal">
         <div class="modal-conteudo">
             <h2>Editar Tarefa</h2>
@@ -36,7 +44,7 @@
         </div>
     </div>
 
-    <!-- Modal de Confirmação -->
+    <!-- Modal para confirmação de exclusão -->
     <div id="modalConfirmar" class="modal">
         <div class="modal-conteudo">
             <h2>Confirmar Exclusão</h2>
@@ -46,5 +54,7 @@
         </div>
     </div>
 
-    <script src="script.js"></script> </body>
+    <!-- Importação do arquivo JavaScript principal -->
+    <script src="script.js"></script>
+</body>
 </html>

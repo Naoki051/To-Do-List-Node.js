@@ -1,0 +1,189 @@
+/* Estilo geral da página */
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f4f4f4;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+h1 {
+    color: #2c3e50;
+}
+
+/* Estilo para a seção de entrada e filtro */
+section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.input-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#novaTarefa {
+    flex-grow: 1;
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#adicionarTarefa {
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#adicionarTarefa:hover {
+    background-color: #2980b9;
+}
+
+#filtroTarefas {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    margin-left: 10px;
+}
+
+/* Estilo para a lista de tarefas */
+#listaTarefas {
+    list-style-type: none;
+    padding: 0;
+}
+
+.tarefa {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.tarefa:hover {
+    background-color: #f9f9f9;
+}
+
+.tarefa input[type="checkbox"] {
+    margin-right: 15px;
+    align-self: center;
+}
+
+.tarefa-conteudo {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.titulo {
+    font-size: 1em;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.data-criacao {
+    font-size: 0.8em;
+    color: #777;
+}
+
+.acoes {
+    display: flex;
+    align-items: center;
+}
+
+.editar, .excluir {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2em;
+    margin-left: 10px;
+    transition: color 0.3s;
+}
+
+.editar:hover, .excluir:hover {
+    opacity: 0.7;
+}
+
+/* Estilo para os modais */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-conteudo {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.modal-conteudo h2 {
+    margin-top: 0;
+    color: #2c3e50;
+}
+
+.modal-conteudo input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.modal-conteudo button {
+    padding: 10px 20px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#salvarEdicao, #confirmarExclusao {
+    background-color: #2ecc71;
+    color: white;
+}
+
+#cancelarEdicao, #cancelarExclusao {
+    background-color: #e74c3c;
+    color: white;
+}
+
+#salvarEdicao:hover, #confirmarExclusao:hover {
+    background-color: #27ae60;
+}
+
+#cancelarEdicao:hover, #cancelarExclusao:hover {
+    background-color: #c0392b;
+}

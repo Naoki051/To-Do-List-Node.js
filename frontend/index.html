@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css"> </head>
+<body>
+    <header>
+        <h1>To Do List</h1>
+    </header>
+
+    <section>
+        <div class="input-container">
+            <input type="text" id="novaTarefa" placeholder="Digite sua tarefa">
+            <button id="adicionarTarefa">Adicionar</button>
+            <select id="filtroTarefas">
+                <option value="todas">Todas</option>
+                <option value="pendentes">Pendentes</option>
+                <option value="concluidas">Concluídas</option>
+            </select>
+        </div>
+        <ul id="listaTarefas">
+            <!-- As tarefas serão adicionadas aqui dinamicamente -->
+        </ul>
+    </section>
+
+    <!-- Modal de Edição -->
+    <div id="modalEditar" class="modal">
+        <div class="modal-conteudo">
+            <h2>Editar Tarefa</h2>
+            <input type="text" id="tarefaEditada">
+            <button id="salvarEdicao">Salvar</button>
+            <button id="cancelarEdicao">Cancelar</button>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmação -->
+    <div id="modalConfirmar" class="modal">
+        <div class="modal-conteudo">
+            <h2>Confirmar Exclusão</h2>
+            <p>Tem certeza que deseja apagar esta tarefa?</p>
+            <button id="confirmarExclusao">Sim</button>
+            <button id="cancelarExclusao">Não</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script> </body>
+</html>

@@ -3,6 +3,7 @@ const express = require('express');
 const redisClient = require('./config/redis');
 const dbPool = require('./config/database');
 const taskRoutes = require('./routes/taskRoutes');
+const authRoutes = require('./routes/authRoutes');
 require('dotenv').config();
 const cors = require('cors');
 
@@ -10,8 +11,8 @@ const cors = require('cors');
 const app = express();
 
 // Middlewares globais
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
 
 // Middleware para verificar a conexão com o Redis
 app.use((req, res, next) => {
@@ -35,6 +36,7 @@ app.use(async (req, res, next) => {
 
 // Rotas da API
 app.use('/api', taskRoutes);
+app.use('/auth', authRoutes);
 
 // Configuração e inicialização do servidor
 const PORT = process.env.PORT || 3000;

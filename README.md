@@ -78,6 +78,7 @@ A API do backend inclui os seguintes endpoints:
 
 ## 7. Autenticação
 A autenticação é implementada usando JSON Web Tokens (JWT). Veja o código completo da autenticação [aqui](./src/controllers/authController.js) e do middleware [aqui](./src/middleware/auth.js).
+O usuário deve estar previamente criado na tabela de Users.
 
 Processo básico:
 1. O usuário faz login através do endpoint `/auth/login`.

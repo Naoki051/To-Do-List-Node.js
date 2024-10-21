@@ -75,6 +75,7 @@ A API do backend inclui os seguintes endpoints:
 - `PUT /api/tasks/:id`: Atualiza uma tarefa existente (requer autenticação)
 - `DELETE /api/tasks/:id`: Exclui uma tarefa (requer autenticação)
 - `PATCH /api/tasks/:id/toggle`: Alterna o status de uma tarefa (requer autenticação)
+Testes manuais foram realizados no Postman para verificar o funcionamento da aplicação.
 
 ## 7. Autenticação
 A autenticação é implementada usando JSON Web Tokens (JWT). Veja o código completo da autenticação [aqui](./src/controllers/authController.js) e do middleware [aqui](./src/middleware/auth.js).

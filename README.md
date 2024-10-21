@@ -1,7 +1,7 @@
 # Documentação do Projeto To-Do List
 
 ## 1. Visão Geral
-Este projeto é uma aplicação de lista de tarefas (To-Do List) com um frontend em HTML, CSS e JavaScript, e um backend em Node.js. A aplicação permite aos usuários criar, visualizar, atualizar e excluir tarefas, além de marcar tarefas como concluídas.
+Este projeto é uma aplicação de lista de tarefas (To-Do List) com um frontend em HTML, CSS e JavaScript, e um backend em Node.js. A aplicação permite aos usuários criar, visualizar, atualizar e excluir tarefas, além de marcar tarefas como concluídas. O projeto agora inclui autenticação de usuários.
 
 ## 2. Estrutura do Projeto
 O projeto está dividido em duas partes principais:
@@ -20,18 +20,20 @@ O backend está localizado na pasta `backend` e inclui:
 - `controllers/`: Diretório contendo a lógica de controle
 - `models/`: Diretório contendo os modelos de dados
 - `config/`: Diretório contendo configurações (banco de dados, Redis)
-- `services/`: Diretório contendo serviços adicionais (Redis, Google Cloud)
+- `middleware/`: Diretório contendo middlewares (autenticação)
 
 ## 3. Tecnologias Utilizadas
 - **Frontend**: HTML5, CSS3, JavaScript (ES6+)
 - **Backend**: Node.js, Express.js
 - **Banco de Dados**: MySQL
 - **Cache**: Redis
-- **Armazenamento em Nuvem**: Google Cloud SQL
+- **Autenticação**: JSON Web Tokens (JWT)
+- **Armazenamento em Nuvem**: Google Cloud Storage
 
 ## 4. Funcionalidades Principais
 
 ### 4.1 Frontend
+- Autenticação de usuários (login/logout)
 - Adicionar novas tarefas
 - Listar todas as tarefas
 - Marcar tarefas como concluídas
@@ -41,9 +43,10 @@ O backend está localizado na pasta `backend` e inclui:
 
 ### 4.2 Backend
 - API RESTful para gerenciamento de tarefas
+- Autenticação de usuários usando JWT
 - Armazenamento de tarefas no banco de dados MySQL
 - Cache de tarefas usando Redis para melhorar o desempenho
-- Sincronização de tarefas com o Google Cloud SQL para armazenamento e backup
+- Integração com Google Cloud Storage para armazenamento e backup
 
 ## 5. Configuração e Instalação
 
@@ -51,55 +54,65 @@ O backend está localizado na pasta `backend` e inclui:
 - Node.js (versão 14 ou superior)
 - MySQL
 - Redis
-- Conta no Google Cloud com uma instância MySQL configurada
+- Conta no Google Cloud com Storage configurado
 
 ### 5.2 Instalação
-- Clone o repositório.
-- Instale as dependências do backend:
-  - `cd backend`
-  - `npm install`
-- Configure as variáveis de ambiente no arquivo `.env` (veja o exemplo em `.env.example`).
-- Inicie o servidor backend:
-  - `npm start`
-- Abra o arquivo `frontend/index.html` em um navegador web.
+1. Clone o repositório.
+2. Instale as dependências do backend:
+   -’cd backend’
+   -’npm install’
+3. Configure as variáveis de ambiente no arquivo `.env` (veja o exemplo em `.env_sample`) e adicione as credenciais do Google Cloud para conexão e armazenamento.
+4. Inicie o servidor backend:
+   -’npm start’
+5. Abra o arquivo `frontend/index.html` em um navegador web.
+
 ## 6. Estrutura da API
 A API do backend inclui os seguintes endpoints:
 
-- `GET /api/tasks`: Retorna todas as tarefas
-- `POST /api/tasks`: Cria uma nova tarefa
-- `PUT /api/tasks/:id`: Atualiza uma tarefa existente
-- `DELETE /api/tasks/:id`: Exclui uma tarefa
-- `PATCH /api/tasks/:id/toggle`: Alterna o status de uma tarefa entre concluída e pendente
+- `POST /auth/login`: Autentica um usuário
+- `GET /api/tasks`: Retorna todas as tarefas (requer autenticação)
+- `POST /api/tasks`: Cria uma nova tarefa (requer autenticação)
+- `PUT /api/tasks/:id`: Atualiza uma tarefa existente (requer autenticação)
+- `DELETE /api/tasks/:id`: Exclui uma tarefa (requer autenticação)
+- `PATCH /api/tasks/:id/toggle`: Alterna o status de uma tarefa (requer autenticação)
 
-## 7. Segurança
+## 7. Autenticação
+A autenticação é implementada usando JSON Web Tokens (JWT). Veja o código completo da autenticação [aqui](./src/controllers/authController.js) e do middleware [aqui](./src/middleware/auth.js).
+
+Processo básico:
+1. O usuário faz login através do endpoint `/auth/login`.
+2. Se as credenciais estiverem corretas, o servidor retorna um token JWT.
+3. O frontend armazena este token no `localStorage`.
+4. Requisições subsequentes devem incluir o token no cabeçalho de autorização.
+5. O middleware no backend valida o token para proteger as rotas.
+
+## 8. Segurança
 - Utiliza CORS para controle de acesso.
 - Armazena senhas e chaves sensíveis em variáveis de ambiente.
-- Implementar validação de entrada usando express-validator.
+- Implementa autenticação JWT para proteger rotas sensíveis.
+- Usa HTTPS em produção (recomendado, não implementado no código fornecido).
 
-## 8. Melhorias Futuras
-- Implementar autenticação de usuários para garantir que somente pessoas autorizadas possam criar, alterar ou apagar tarefas.
+## 9. Integração com Google Cloud
+O projeto utiliza o Google Cloud Storage para armazenamento e backup de dados. A configuração é feita no arquivo `server.js`.
+
+
+## 10. Desafios Enfrentados e Melhorias Futuras
+
+### 10.1 Desafios
+- Configuração da instância no Google Cloud e problemas de autenticação.
+- Problemas de desempenho, com delay visível em algumas ações.
+- Dificuldades no design da interface do usuário.
+- Implementação parcial do sistema de autenticação devido a restrições de tempo e conhecimento limitado sobre JWT.
+
+### 10.2 Melhorias Futuras
+- Implementar um sistema completo de registro de usuários.
+- Adicionar funcionalidade de recuperação de senha.
+- Melhorar a segurança do token JWT, evitando expô-lo diretamente na resposta JSON.
+- Implementar refresh tokens para melhor gerenciamento de sessões.
 - Adicionar testes automatizados.
-- Melhorar a interface do usuário com um framework frontend (React, Vue.js, etc.).
+- Melhorar a interface do usuário, possivelmente migrando para um framework frontend como React ou Vue.js.
 - Implementar paginação para lidar com um grande número de tarefas.
+- Otimizar o desempenho para reduzir delays.
 
-## 9. Problemas Enfrentados Durante o Desenvolvimento
-Durante o desenvolvimento da aplicação To-Do List, alguns desafios foram identificados:
-
-### 9.1 Configuração da Instância no Google Cloud
-A configuração da instância no Google Cloud foi um desafio significativo. Houve dificuldades relacionadas à autenticação do meu computador, que eram necessárias para estabelecer conexões adequadas com os serviços do Google Cloud.
-
-### 9.2 Problemas de Desempenho
-Identificou-se um problema de desempenho, com um delay visível ao realizar ações na aplicação. Esse atraso pode impactar a experiência do usuário e está sendo monitorado para futuras otimizações.
-
-### 9.3 Dificuldades no Design
-Enfrentei dificuldades pessoais ao desenvolver o design da aplicação. Essa parte do projeto requer atenção especial, e a falta de experiência pode ter contribuído para esses desafios.
-
-### 9.4 Autenticação
-Devido à quantidade reduzida de tempo e ao meu desconhecimento sobre JWT (JSON Web Tokens), não foi possível implementar um sistema de autenticação com usuário e senha. No entanto, essa funcionalidade poderia ser desenvolvida futuramente. A implementação envolveria a criação de uma tabela Users, contendo os campos id_user, nome_user e senha. Além disso, seria necessária a validação das requisições através de um token JWT, que utilizaria a seção para gerar um token com um tempo de vida específico, permitindo validar as ações do usuário e garantir a segurança da aplicação.
-
-## 10. Licença
-Este projeto está licenciado sob a licença ISC.
-
-
-
-
+## 11. Licença
+Este projeto está licenciado sob a licença ISC..
